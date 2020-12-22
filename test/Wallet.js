@@ -13,5 +13,16 @@ contract('Wallet', (accounts) => {
             .sendTransaction({
             from: accounts[0], to: wallet.address, value: 1000});
         });
-        
+         //tests are inside a it block
+         it('should have correct approvers and quorum', async () => {
+            const approvers = await wallet.getApprovers()
+            const quorum = await wallet.quorum();
+    
+            //if all aassertions tests fail everything else fails.
+            assert(approvers.length == 3);
+            assert(approvers[0] === accounts[0]);
+            assert(approvers[1] === accounts[1]);
+            assert(approvers[2] === accounts[2]);
+            assert(quorum.toNumber() === 2);
+        })
 });
