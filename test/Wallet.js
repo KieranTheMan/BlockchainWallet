@@ -19,7 +19,7 @@ contract('Wallet', (accounts) => {
             const quorum = await wallet.quorum();
     
             //if all aassertions tests fail everything else fails.
-            assert(approvers.length == 3);
+            assert(approvers.length === 3);
             assert(approvers[0] === accounts[0]);
             assert(approvers[1] === accounts[1]);
             assert(approvers[2] === accounts[2]);
