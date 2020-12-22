@@ -25,4 +25,17 @@ contract('Wallet', (accounts) => {
             assert(approvers[2] === accounts[2]);
             assert(quorum.toNumber() === 2);
         })
+
+        it('should create transfers', async () => {
+
+            await wallet.createTransfer(accounts[5], 100, {from: accounts[0]});
+            const transfers = await wallet.getTransfers();
+            
+            assert(transfers.length === 1);
+            assert(transfers[0].id === '0');
+            assert(transfers[0].amount === '100');
+            assert(transfers[0].to === accounts[5]);
+            assert(transfers[0].approvals === '0');
+            assert(transfers[0].sent === false);
+        });
 });
