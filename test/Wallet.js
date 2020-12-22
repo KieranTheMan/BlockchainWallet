@@ -30,7 +30,7 @@ contract('Wallet', (accounts) => {
 
             await wallet.createTransfer(accounts[5], 100, {from: accounts[0]});
             const transfers = await wallet.getTransfers();
-            
+
             assert(transfers.length === 1);
             assert(transfers[0].id === '0');
             assert(transfers[0].amount === '100');
