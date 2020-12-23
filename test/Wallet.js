@@ -40,7 +40,18 @@ contract('Wallet', (accounts) => {
             assert(transfers[0].sent === false);
         });
 
-        it('should NOT create transfers, if semder is not Approved', async () => {
+        it('should NOT create transfers, if sender is not Approved', async() => {
             await expectRevert(wallet.createTransfer(100, accounts[5], {from: accounts[4]}), 'only approver allowed');
+        });
+
+        it('it should increment approvals', async () => {
+            await wallet.createTransfer(100, accounts[5], {from: accounts[0]});
+            await wallet.approveTransfer(0, {from: accounts[0]});
+            const transfers = await wallet.getTransfers();
+            const balance = await web3.eth.getBalance(wallet.address);
+            assert(transfers[0].approvals === '1');
+            assert(transfers[0].sent === false);
+            assert(balance === '1000');
+
         });
 });
