@@ -1,8 +1,8 @@
-
+const { expectRevert } = require('@openzeppelin/test-helpers');
 //artifactst is a truffle object that will alow us to interact with smart contract 
 const Wallet = artifacts.require('Wallet');
-const { expectRevert } = require('@openzeppelin/test-helpers');
-const { web3 } = require('@openzeppelin/test-helpers/src/setup');
+
+
 //truffle blockchain generates 10 addreess with fake either, (accounts)
 contract('Wallet', (accounts) => {
     let wallet;
@@ -42,7 +42,7 @@ contract('Wallet', (accounts) => {
         });
 
         it('should NOT create transfers, if sender is not Approved', async() => {
-            expectRevert(await wallet.createTransfer(100, accounts[5], {from: accounts[4]}), 'only approver allowed');
+            await expectRevert(wallet.createTransfer(100, accounts[5], {from: accounts[4]}), 'only approver allowed');
         });
 
         it('it should increment approvals', async () => {
@@ -65,6 +65,10 @@ contract('Wallet', (accounts) => {
             //comparing the balance
             assert(balanceAfter.sub(balanceBefor).toNumber() === 100);
 
+        });
+        it('should not approve transfer if sender is not approved', async ()=> {
+            await wallet.createTransfer(100, accounts[5], {from: accounts[0]});
+            await expectRevert(wallet.approveTransfer(0, {from: accounts[4]}), 'only approver allowed')
         });
 
 });
