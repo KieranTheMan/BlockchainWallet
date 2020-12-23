@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.4.22 <0.9.0;
+pragma solidity >=0.4.22 <0.8.0;
 pragma experimental ABIEncoderV2;
 
 contract Wallet {
@@ -33,7 +33,7 @@ contract Wallet {
         return transfers;
     }
 
-    function createTransfer(address payable to, uint amount) external onlyApprover(){
+    function createTransfer(uint amount, address payable to) external onlyApprover() {
         transfers.push(Transfer(
             transfers.length,
             amount,
@@ -43,7 +43,7 @@ contract Wallet {
         ));
     }
     
-    function approveTransfer(uint id) external onlyApprover(){
+    function approveTransfer(uint id) external {
         require(transfers[id].sent == false, 'transfer has already been sent');
         require(approvals[msg.sender][id] == false, 'can not approve transfer twice');
         
