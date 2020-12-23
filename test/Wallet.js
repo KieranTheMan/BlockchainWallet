@@ -2,6 +2,7 @@
 //artifactst is a truffle object that will alow us to interact with smart contract 
 const Wallet = artifacts.require('Wallet');
 const { expectRevert } = require('@openzeppelin/test-helpers');
+const { web3 } = require('@openzeppelin/test-helpers/src/setup');
 //truffle blockchain generates 10 addreess with fake either, (accounts)
 contract('Wallet', (accounts) => {
     let wallet;
@@ -41,7 +42,7 @@ contract('Wallet', (accounts) => {
         });
 
         it('should NOT create transfers, if sender is not Approved', async() => {
-            await expectRevert(wallet.createTransfer(100, accounts[5], {from: accounts[4]}), 'only approver allowed');
+            expectRevert(await wallet.createTransfer(100, accounts[5], {from: accounts[4]}), 'only approver allowed');
         });
 
         it('it should increment approvals', async () => {
@@ -54,4 +55,16 @@ contract('Wallet', (accounts) => {
             assert(balance === '1000');
 
         });
+
+        it('should send transfer if quorum reached, check if ether has been sent', async () => {
+            const balanceBefor = web3.utils.toBN(await web3.eth.getBalance(accounts[6]));
+            await wallet.createTransfer(100, accounts[6], {from: accounts[0]});
+            await wallet.approveTransfer(0, {from: accounts[0]});
+            await wallet.approveTransfer(0, {from: accounts[1]});
+            const balanceAfter = web3.utils.toBN(await web3.eth.getBalance(accounts[6]));
+            //comparing the balance
+            assert(balanceAfter.sub(balanceBefor).toNumber() === 100);
+
+        });
+
 });
