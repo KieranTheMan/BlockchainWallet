@@ -27,8 +27,12 @@ function App() {
     init();
   }, []);
 
-  
-
+  const createTransfer = transfer => {
+    //using web3 to asscess the smartcontract via wallet veribal
+    wallet.methods
+    .createTranser(transfer.amount, transfer.to)
+    .send({from: accounts[0]});//to modifie data on contract using web3
+  }
 
 
   if( typeof web3 === 'undefined'
