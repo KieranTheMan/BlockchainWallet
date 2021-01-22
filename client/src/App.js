@@ -38,6 +38,12 @@ function App() {
     .send({from: accounts[0]});//to modifie data on contract using web3
   }
 
+  const approveTransfer = transferId => {
+    wallet.methods
+    .approveTransfer(transferId)
+    .send({from: accounts[0]});
+  }
+
 
   if( typeof web3 === 'undefined'
     || typeof accounts === 'undefined'
