@@ -15,7 +15,7 @@ function App() {
 
   useEffect(() => {
     const init = async () => {
-      const web3 = getWeb3();
+      const web3 = await getWeb3();
       const accounts = await web3.eth.getAccounts(); //get list of accounts from Ganash
       const wallet = await getWallet(web3);
       const approvers = await wallet.methods.getApprovers().call();//'methods' key to access function of smart contract
