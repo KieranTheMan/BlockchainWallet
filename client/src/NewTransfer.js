@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 
 function NewTransfer ({createTransfer}) {
-    const [Transfer, setTransfer] = useState(undefined);
-    const submit = (e) => {
-        e.preventDefault()
-        createTransfer(transfer)
-    }//we whant to prevent the default action of the form wich is a full page reload
+    const [transfer, setTransfer] = useState(undefined);
+    const submit = e => {
+        e.preventDefault();
+        createTransfer(transfer);
+    }
+    //we whant to prevent the default action of the form wich is a full page reload
     const updateTransfer = (e, field) => {
         const value = e.target.value;
-        setTransfer({...Transfer, [field] : value })
+        setTransfer({...transfer, [field]: value })
     }
 
     return (
@@ -33,3 +34,5 @@ function NewTransfer ({createTransfer}) {
         </>
     );
 }
+
+export default NewTransfer;
