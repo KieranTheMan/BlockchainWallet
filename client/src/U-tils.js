@@ -7,20 +7,22 @@ import Wallet from './contracts/Wallet.json'
 const getWeb3 = () => {
     //return new Web3('http://localhost:9545') // truffle local ganash(built in blockchain of truffle) host, pass url to node that runs development blockchain
 //intergrate metaMask to sign transations on the mainNet
-return new Promise((resolve, rejected) => {
-        if(windows.ethereum) {
-            const web3 = new getWeb3(windows.ethereum);// pass a provider object injected by metamask
-            try {
-                await windows.ethereum.enable()// ask the user if they want to great access to dapp.
-                resolve(web3); //enable to acess dapp
-            } catch(error) {
-                rejected(error);// if no to access promise will be rejected
-            }
-        } else if (window.web3) { //if the user is using a old version on metaMask
-            resolve(window.web3); // window web3 will inject web3 from metamask
-        } else {
-            rejected('Must install MetaMask');
-        }
+    return new Promise((resolve, rejected) => {
+        window.addEventListener('load', async () => {//the load event garentees that all the javascript has been loaded and chrome extentions
+                if(window.ethereum) {
+                        const web3 = new getWeb3(window.ethereum);// pass a provider object injected by metamask
+                        try {
+                            await window.ethereum.enable()// ask the user if they want to great access to dapp.
+                            resolve(web3); //enable to acess dapp
+                        } catch(error) {
+                            rejected(error);// if no to access promise will be rejected
+                        }
+                    } else if (window.web3) { //if the user is using a old version on metaMask
+                        resolve(window.web3); // window web3 will inject web3 from metamask
+                    } else {
+                        rejected('Must install MetaMask');
+                    }
+        });
     });
 };
 
