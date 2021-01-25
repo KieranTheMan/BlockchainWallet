@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {getWeb3, getWallet} from './U-tils.js';
 import Header from './Header.js';
 import NewTransfer from './NewTransfer.js';
-import Transferlist from './TransferList.js';
+import TransferList from './TransferList.js';
 
 
 function App() {
@@ -30,11 +30,10 @@ function App() {
     };
     init();
   }, []);
-
+//using web3 to asscess the smartcontract via wallet veribal
   const createTransfer = transfer => {
-    //using web3 to asscess the smartcontract via wallet veribal
     wallet.methods
-    .createTranser(transfer.amount, transfer.to)
+    .createTransfer(transfer.amount, transfer.to)
     .send({from: accounts[0]});//to modifie data on contract using web3
   }
 
@@ -45,7 +44,7 @@ function App() {
   }
 
 
-  if( typeof web3 === 'undefined'
+  if(typeof web3 === 'undefined'
     || typeof accounts === 'undefined'
     || approvers.length === 0
     || typeof quorum === 'undefined'
@@ -58,7 +57,7 @@ function App() {
       MultiSig Dapp
       <Header approvers={approvers} quorum={quorum}/>
       <NewTransfer createTransfer={createTransfer}/>
-      <Transferlist transferList={transfers}/>
+      <TransferList transfers={transfers} approveTransfer={approveTransfer}/>
     </div>
   );
 }
