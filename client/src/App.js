@@ -30,6 +30,8 @@ function App() {
     };
     init();
   }, []);
+
+  
 //using web3 to asscess the smartcontract via wallet veribal
   const createTransfer = transfer => {
     wallet.methods
@@ -44,13 +46,14 @@ function App() {
   }
 
 
-  if(typeof web3 === 'undefined'
+  if(
+    typeof web3 === 'undefined'
     || typeof accounts === 'undefined'
+    || typeof wallet === 'undefined'
     || approvers.length === 0
     || typeof quorum === 'undefined'
-    || typeof wallet === 'undefined') {
-
-    return <div>Loading...</div>
+  ) {
+    return <div>Loading...</div>;
   }
     return (
     <div>
