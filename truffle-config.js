@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');// node.js fs moduel to read secret files
 const provider = require('@truffle/hdwallet-provider');
-const secrets = JSON.parse(fs.readFileSync('.secrets.json').toString().trim());//read secret file
+const secrets = JSON.parse(fs.readFileSync('.secrets.json').toString().trim());//path to read secret file
 /**
  * Use this file to configure your truffle project. It's seeded with some
  * common settings for different networks and features like migrations,
