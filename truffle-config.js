@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');// node.js fs moduel to read secret files
-const provider = require('@truffle/hdwallet-provider');
+const provider = require('@truffle/hdwallet-provider');//this allows us to configer truffle to use infura
 const secrets = JSON.parse(fs.readFileSync('.secrets.json').toString().trim());//path to read secret file
 /**
  * Use this file to configure your truffle project. It's seeded with some
@@ -46,14 +46,12 @@ module.exports = {
       //configure truffle to use infura, to connect to kovan testnet
       provider: () =>
         new provider(
-          [
             secrets.privateKeys,
-          ],
             'https://kovan.infura.io/v3/b5ebbfd7de4647c78f6d67fedd1c249c', 
             0,//main address
             3// how many address to generate
         ),
-      network_Id: 42
+      network_id: 42
     }
   },
 
